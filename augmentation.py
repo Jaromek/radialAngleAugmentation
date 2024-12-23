@@ -1,14 +1,14 @@
-import numpy as np
+import math
 
 class Augmentacja:
-    def __init__(self, points):
-            
-        self.x = np.array(points[:][0])
-        self.y = np.array(points[:][1])
-        self.n_points = len(self.x)
+    def __init__(self, x, y):
+
+        self.r = math.sqrt(x**2 + y**2)
+        self.phi = math.acos(x/self.r)
+        if y < 0:
+            self.phi = 2*math.pi - self.phi
         
-    def get_points(self):
-        return self.x, self.y
-        
-    def get_points_as_tuples(self):
-        return list(zip(self.x, self.y))
+    def getXY(self, r, phi):
+        x = r * math.cos(phi)
+        y = r * math.sin(phi)
+        return x, y
