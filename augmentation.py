@@ -1,13 +1,10 @@
 import numpy as np
 
 class Augmentacja:
-    def __init__(self, x_points, y_points):
-
-        if len(x_points) != len(y_points):
-            raise ValueError("Length of x_points and y_points must be equal")
+    def __init__(self, points):
             
-        self.x = np.array(x_points)
-        self.y = np.array(y_points)
+        self.x = np.array(points[:][0])
+        self.y = np.array(points[:][1])
         self.n_points = len(self.x)
         
     def get_points(self):
