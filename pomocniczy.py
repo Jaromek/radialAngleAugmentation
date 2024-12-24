@@ -29,7 +29,7 @@ def remove_outliers_lof(data, n_neighbors=20):
     return data[outliers == 1]
 #tworzenie zbiory danych dwu wymiarowych x_train oraz y_train za pomocą funkcji make_blobs z sklearn.datasets.
 #Jest w tym zbiorze danych 300 punktów otoczonych wokół jednego centrum, które zostały stworzone w oparciu o jedno odchylenie standardowe
-x_train, y_train = gu.make_blobs(n_samples=500, centers=1, random_state=42, cluster_std=1.0)
+x_train, y_train = make_blobs(n_samples=500, centers=1, random_state=42, cluster_std=1.0)
 
 #pokazywanie że w x_train znajdują się dwie kolumny o liczbie wierszy 300
 print(pd.DataFrame(x_train).shape)
