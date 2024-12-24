@@ -1,8 +1,35 @@
-import AugmentationClass as aug
+from sklearn.preprocessing import StandardScaler
+from sklearn.neighbors import LocalOutlierFactor
+from sklearn.datasets import make_blobs
+import matplotlib.pyplot as plt
+from matplotlib.patches import Wedge
+import pandas as pd
+import random
 
+import GeometryUtils as gu
+
+def compare_points(array1, array2):
+    # Tablica na różniące się punkty
+    difference_tab = []
+
+    # Zaokrąglamy punkty w array2 do porównania
+    rounded_array2 = [[round(x, 5), round(y, 5)] for x, y in array2]
+
+    # Porównanie punktów
+    for x, y in array1:
+        rounded_point = [round(x, 5), round(y, 5)]
+        if rounded_point not in rounded_array2:
+            difference_tab.append(rounded_point)
+
+    return difference_tab
+
+def remove_outliers_lof(data, n_neighbors=20):
+    lof = LocalOutlierFactor(n_neighbors=n_neighbors)
+    outliers = lof.fit_predict(data)
+    return data[outliers == 1]
 #tworzenie zbiory danych dwu wymiarowych x_train oraz y_train za pomocą funkcji make_blobs z sklearn.datasets.
 #Jest w tym zbiorze danych 300 punktów otoczonych wokół jednego centrum, które zostały stworzone w oparciu o jedno odchylenie standardowe
-x_train, y_train = make_blobs(n_samples=500, centers=1, random_state=42, cluster_std=1.0)
+x_train, y_train = gu.make_blobs(n_samples=500, centers=1, random_state=42, cluster_std=1.0)
 
 #pokazywanie że w x_train znajdują się dwie kolumny o liczbie wierszy 300
 print(pd.DataFrame(x_train).shape)
