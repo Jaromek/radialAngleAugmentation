@@ -1,5 +1,4 @@
-from sklearn.preprocessing import StandardScaler
-from sklearn.neighbors import LocalOutlierFactor
+import DataPreparation as dp
 from sklearn.datasets import make_blobs
 import matplotlib.pyplot as plt
 from matplotlib.patches import Wedge
@@ -23,59 +22,24 @@ def compare_points(array1, array2):
 
     return difference_tab
 
-def remove_outliers_lof(data, n_neighbors=20):
-    lof = LocalOutlierFactor(n_neighbors=n_neighbors)
-    outliers = lof.fit_predict(data)
-    return data[outliers == 1]
+
 #tworzenie zbiory danych dwu wymiarowych x_train oraz y_train za pomocą funkcji make_blobs z sklearn.datasets.
-#Jest w tym zbiorze danych 300 punktów otoczonych wokół jednego centrum, które zostały stworzone w oparciu o jedno odchylenie standardowe
+#Jest w tym zbiorze danych 500 punktów otoczonych wokół jednego centrum, które zostały stworzone w oparciu o jedno odchylenie standardowe
 x_train, y_train = make_blobs(n_samples=500, centers=1, random_state=42, cluster_std=1.0)
 
 #pokazywanie że w x_train znajdują się dwie kolumny o liczbie wierszy 300
 print(pd.DataFrame(x_train).shape)
 
 #skalowanie danych Standardowym skalowaniem z biblioteki sklearn.preprocesing
-scaler = StandardScaler()
-x_train = scaler.fit_transform(x_train)
+x_train = dp.DataPreparation.normalize_data(x_train)
 
 #aplikowanie metody LOF
-x_train = remove_outliers_lof(x_train)
+x_train = dp.DataPreparation.remove_outliers_lof(x_train)
 
-print(len(x_train))
+#przesunięcie danych do środka masy
+x_train = dp.DataPreparation.shift_to_mass_center(x_train)
 
-#szukanie środka ciężkości całego wykresu, aby móc przesunąć go na środek by późniejsza augmentacja stała się łatwiejsza z punktem zaczepienia wektorów
-#wokół punktu (0,0) w dwu wymiarowej przestrzeni.
-df = pd.DataFrame(x_train, columns=['x', 'y'])
-mean_x = df['x'].mean()
-mean_y = df['y'].mean()
-
-new_point = [mean_x, mean_y]
-
-#przesuwanie danych o środek ciężkości aby on był na środku układu współrzędnych
-x_train = x_train - [mean_x, mean_y]
-
-#sprowadzanie wartosci do tabeli pandas
-x = pd.DataFrame(longest_distance(x_train))
-print(x.head())
-
-#sortowanie
-x.sort_values(by=[0], ascending=False, inplace=True)
-len_list = x.values.tolist()
-
-print(len_list[:5])
-
-#rozpietosc wykresu - sprawdzanie
-coord_max = x.max()
-coord_min = x.min()
-coord_max = coord_max.values.tolist()
-coord_min = coord_min.values.tolist()
-coord_max.pop(0)
-coord_min.pop(0)
-
-print(len(len_list))
-
-x_dist = abs(coord_max[0]) + abs(coord_min[0])
-y_dist = abs(coord_max[1]) + abs(coord_min[1])
+#sortowanie danych
 
 n_angles =5
 
