@@ -32,3 +32,9 @@ class Coordinate:
 
     def setPhi(self, phi):
         self.phi = phi
+
+    def section_angle(n_angles):
+        return 2*math.pi / n_angles
+
+    def which_section(self, n_angles):
+        return next(angle for angle in range(n_angles) if self.phi < angle * Coordinate.section_angle(n_angles))

@@ -1,17 +1,16 @@
 import math
+import Coordinate as co
 
 class GeometryUtils:
 
-    def is_in_radius(point_radious, start_radious, end_radious):
-        return start_radious <= point_radious <= end_radious
+    def section_angle(n_angles):
+        return 2*math.pi / n_angles
     
+    def is_in_radious(point_radious, start_radious, end_radious):
+        return start_radious <= point_radious <= end_radious
 
     def is_in_angle(point_angle, angle_start, angle_end):
-        if angle_start < angle_end:
-            return angle_start <= point_angle <= angle_end
-        
-        elif angle_start > angle_end:
-            return 2*math.pi - angle_start <= point_angle <= angle_end
+        return angle_start <= point_angle <= angle_end
 
 
     def radious_of_equal_areas(section_radious, subsections_count):
@@ -27,3 +26,9 @@ class GeometryUtils:
         radiouses_of_section.insert(0, 0)
 
         return radiouses_of_section
+    
+    
+    
+    
+
+    
