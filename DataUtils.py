@@ -34,10 +34,13 @@ if __name__ == '__main__':
 
     DataUtils.setPhiShift(DataUtils.max_r(tab))
 
-    print("-----------------")
-
     print(co.Coordinate.shiftPhi)
 
-    print(max_r.getXY(),max_r.getR(),max_r.getPhi())
+    print("-----------------")
 
-    print()
+    for i in range(n):
+        print(tab[i].getXY(),tab[i].getR(),tab[i].getPhi())
+
+    print("-----------------")
+
+    print(max_r.getXY(),max_r.getR(),max_r.getPhi())
