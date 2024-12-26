@@ -22,15 +22,25 @@ class Augmentation():
 
 print("-----------------")
 
-sec = list(filter(lambda x: x.getPhi() < 5.97 and x.getPhi() > 5.17, tab))
+# sec = list(filter(lambda x: x.getPhi() < 5.97 and x.getPhi() > 5.17, tab))
 
-for s in sec:
-    print(s.getXY(),s.getR(),s.getPhi()) 
+# for s in sec:
+#     print(s.getXY(),s.getR(),s.getPhi()) 
 
-print("-ccccccccc----")
 
-#lst = reduce(lambda x, y: min(x.getR(), y.getR()), sec)
+def max_r(tab, key):
+    return max(tab, key)
 
-min_object = min(sec, key=lambda sec: sec.getR())
+def max_r(tab):
+    max_object = max(tab, key=lambda tab: tab.getR())
+    return max_object
 
-print(min_object.getXY(),min_object.getR(),min_object.getPhi())
+max_object = max(tab, key=lambda tab: tab.getR())
+
+
+print(max_object.getXY(),max_object.getR(),max_object.getPhi())
+
+
+print(max_r(tab).getXY(),max_r(tab).getR(),max_r(tab).getPhi())
+
+print("-----------------")
