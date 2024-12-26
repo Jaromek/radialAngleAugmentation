@@ -28,7 +28,4 @@ class DataPrepUtils:
         return polar_data
     
 
-    def sort_data_by_R(data):
-        return sorted(data, key=lambda x: x[0])
-
         
