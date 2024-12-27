@@ -51,8 +51,9 @@ if __name__ == '__main__':
     
     n = 100
     tab = [co.Coordinate(random.uniform(-10, 10), random.uniform(-10, 10)) for i in range(n)]
+    # print(len(tab))
     for i in range(n):
         #ic(tab[i].getXY(),tab[i].getR(),tab[i].getPhi(), Section.point_section(5, tab[i]))
 
-        #ic(SubSection.subsections_number(5, tab[i], Section.point_section(5, tab[i])))
+        ic(SubSection.subsections_number(5, tab, Section.point_section(5, tab[i])))
         print(" ")

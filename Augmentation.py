@@ -27,18 +27,14 @@ print("-----------------")
 # for s in sec:
 #     print(s.getXY(),s.getR(),s.getPhi()) 
 
-
-def max_r(tab, key):
-    return max(tab, key)
-
 def max_r(tab):
     max_object = max(tab, key=lambda tab: tab.getR())
     return max_object
 
-max_object = max(tab, key=lambda tab: tab.getR())
+# max_object = max(tab, key=lambda tab: tab.getR())
 
 
-print(max_object.getXY(),max_object.getR(),max_object.getPhi())
+# print(max_object.getXY(),max_object.getR(),max_object.getPhi())
 
 
 print(max_r(tab).getXY(),max_r(tab).getR(),max_r(tab).getPhi())
