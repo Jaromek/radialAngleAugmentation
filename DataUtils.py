@@ -1,5 +1,6 @@
 import Coordinate as co
 import random
+from typing import List
 
 class DataUtils:
     def max_radious(tab):
@@ -12,7 +13,7 @@ class DataUtils:
     
 
 if __name__ == '__main__':
-    tab = []
+    tab:List[co.Coordinate] = []
 
     n = 10
 
@@ -22,7 +23,7 @@ if __name__ == '__main__':
     print("-----------------")
 
     for i in range(n):
-        print(tab[i].getXY(),tab[i].getR(),tab[i].getPhi())
+        print(tab[i].getXY() ,tab[i].getR(),tab[i].getPhi())
     
     print("-----------------")
 

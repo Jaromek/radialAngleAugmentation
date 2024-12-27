@@ -22,10 +22,8 @@ class DataPrepUtils:
         scaler = StandardScaler()
         return scaler.fit_transform(data)
     
-
-    def data_to_polar(data):
-        polar_data = [[co.Coordinate.getR(point) , co.Coordinate.getPhi(point)] for point in data]
-        return polar_data
+    def listed_class(data):
+        return [co.Coordinate(point[0], point[1]) for point in data]
     
 
         

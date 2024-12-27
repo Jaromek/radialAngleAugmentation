@@ -35,6 +35,29 @@ class Section:
     def section_radious(n_angles, points, section_num):
         section = Section.points_in_section(n_angles, points, section_num)
         return du.DataUtils.max_radious(section)
+    
+    def list_of_number_of_elements_in_sections(n_angles, points):
+        return [Section.number_of_elements_in_section(n_angles, points, section_num) for section_num in range(n_angles)]
+    
+    def occuracy_ratio_list(n_angles, points):
+        return [Section.number_of_elements_in_section(n_angles, points, section_num)/len(points) for section_num in range(n_angles)]
+    
+    def number_of_generated_points_per_section(n_angles, points, n_generated_points):
+        return [int(Section.occuracy_ratio_list(n_angles, points)[i] * n_generated_points) for i in range(n_angles)]
+    
+    def difference_between_generated_points(n_angles, points, n_generated_points):
+        return n_generated_points - sum(Section.number_of_generated_points_per_section(n_angles, points, n_generated_points))
+    
+    def less_generated_points_list_index(n_angles, points, n_generated_points):
+        if Section.difference_between_generated_points(n_angles, points, n_generated_points) > 0:
+            return Section.number_of_generated_points_per_section(n_angles, points, n_generated_points).index(min(Section.number_of_generated_points_per_section(n_angles, points, n_generated_points)))
+        else:
+            return None
+        
+    def equalize_generated_points(n_angles, points, n_generated_points):
+        index = Section.less_generated_points_list_index(n_angles, points, n_generated_points)
+        if index != None:
+            return [Section.number_of_generated_points_per_section(n_angles, points, n_generated_points)[i] + Section.difference_between_generated_points(n_angles, points, n_generated_points) if i == index else Section.number_of_generated_points_per_section(n_angles, points, n_generated_points)[i] for i in range(n_angles)]
 
 
 class SubSection:
@@ -55,6 +78,7 @@ class SubSection:
     def subsection_angle_size(n_angles, points, section_num):
         return gu.GeometryUtils.section_angle_size(n_angles) / SubSection.subsections_number(n_angles, points, section_num)
     
+    
 
 
 if __name__ == '__main__':
@@ -65,6 +89,17 @@ if __name__ == '__main__':
     # print(len(tab))
 
     ic(Section.section_radious(5, tab, 2).getR())
+
+    ic(Section.list_of_number_of_elements_in_sections(5, tab))
+
+    ic(Section.occuracy_ratio_list(5, tab))
+
+    ic(sum(Section.occuracy_ratio_list(5, tab)))
+    
+
+    
+
+
 
     # for i in range(n):
         #ic(tab[i].getXY(),tab[i].getR(),tab[i].getPhi(), Section.point_section(5, tab[i]))
