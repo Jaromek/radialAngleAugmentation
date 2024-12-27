@@ -36,7 +36,7 @@ class Section:
         section = Section.points_in_section(n_angles, points, section_num)
         return du.DataUtils.max_radious(section)
     
-    def list_of_number_of_elements_in_sections(n_angles, points):
+    def list_of_elements_number_in_sections(n_angles, points):
         return [Section.number_of_elements_in_section(n_angles, points, section_num) for section_num in range(n_angles)]
     
     def occuracy_ratio_list(n_angles, points):
@@ -72,13 +72,14 @@ class SubSection:
     def __repr__(self):
         return str(self)
     
-    def subsections_number(n_angles, points, section_num):
-        return abs(int(math.sqrt((Section.number_of_elements_in_section(n_angles, points, section_num)/len(points)) * 100))-2)
+    def subsections_number_in_secton(n_angles, points, section_num):
+        return int(math.sqrt((Section.number_of_elements_in_section(n_angles, points, section_num)/len(points)) * 100))
+    
+    def list_of_subsections_number_by_section(n_angles, points):
+        return [SubSection.subsections_number_in_secton(n_angles, points, section_num) for section_num in range(n_angles)]
 
     def subsection_angle_size(n_angles, points, section_num):
-        return gu.GeometryUtils.section_angle_size(n_angles) / SubSection.subsections_number(n_angles, points, section_num)
-    
-    
+        return gu.GeometryUtils.section_angle_size(n_angles) / SubSection.subsections_number(n_angles, points, section_num)   
 
 
 if __name__ == '__main__':

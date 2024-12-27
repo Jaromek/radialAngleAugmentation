@@ -1,8 +1,7 @@
-from functools import reduce
 import Coordinate as co
-from sklearn.datasets import make_blobs
 import DataPrepUtils as dp
 import Section as sec
+from sklearn.datasets import make_blobs
 from icecream import ic
 
 # tab = []
@@ -41,7 +40,7 @@ from icecream import ic
 
 # print("-----------------")
 
-n_angles = 7
+n_angles = 5
 
 x_train, y_train = make_blobs(n_samples=1000, centers=1, random_state=42, cluster_std=1.0)
 
@@ -53,7 +52,7 @@ x_train = dp.DataPrepUtils.shift_to_mass_center(x_train)
 
 x_train = dp.DataPrepUtils.listed_class(x_train)
 
-section_len = sec.Section.list_of_number_of_elements_in_sections(n_angles, x_train)
+section_len = sec.Section.list_of_elements_number_in_sections(n_angles, x_train)
 
 # ic(section_len)
 # ic(len(x_train))
@@ -63,6 +62,8 @@ section_len = sec.Section.list_of_number_of_elements_in_sections(n_angles, x_tra
 
 # ic(min(generated_points_per_section))
 
+ic(sec.Section.list_of_elements_number_in_sections(n_angles, x_train))
+
 ic(sec.Section.number_of_generated_points_per_section(n_angles, x_train, 1000))
 
 ic(sec.Section.difference_between_generated_points(n_angles, x_train, 1000))
@@ -70,6 +71,8 @@ ic(sec.Section.difference_between_generated_points(n_angles, x_train, 1000))
 ic(sec.Section.less_generated_points_list_index(n_angles, x_train, 1000))
 
 ic(sec.Section.equalize_generated_points(n_angles, x_train, 1000))
+
+ic(sec.SubSection.list_of_subsections_number_by_section(n_angles, x_train))
 
 # print(x_train[0].getXY(), x_train[0].getR(), x_train[0].getPhi())
 # print(len(x_train))
