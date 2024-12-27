@@ -1,6 +1,7 @@
 import math
 import Coordinate as co
 import GeometryUtils as gu
+import DataUtils as du
 import random
 from icecream import ic
 
@@ -30,6 +31,10 @@ class Section:
     
     def number_of_elements_in_section(n_angles, points, section_num):
         return len(Section.points_in_section(n_angles, points, section_num))
+    
+    def section_radious(n_angles, points, section_num):
+        section = Section.points_in_section(n_angles, points, section_num)
+        return du.DataUtils.max_radious(section)
 
 
 class SubSection:
@@ -47,13 +52,25 @@ class SubSection:
     def subsections_number(n_angles, points, section_num):
         return abs(int(math.sqrt((Section.number_of_elements_in_section(n_angles, points, section_num)/len(points)) * 100))-2)
 
+    def subsection_angle_size(n_angles, points, section_num):
+        return gu.GeometryUtils.section_angle_size(n_angles) / SubSection.subsections_number(n_angles, points, section_num)
+    
+
+
 if __name__ == '__main__':
     
     n = 100
-    tab = [co.Coordinate(random.uniform(-10, 10), random.uniform(-10, 10)) for i in range(n)]
+    tab = [co.Coordinate(random.uniform(-10, 10), random.uniform(-10, 10)) for i in range(100)]
+    
     # print(len(tab))
-    for i in range(n):
+
+    ic(Section.section_radious(5, tab, 2).getR())
+
+    # for i in range(n):
         #ic(tab[i].getXY(),tab[i].getR(),tab[i].getPhi(), Section.point_section(5, tab[i]))
 
-        ic(SubSection.subsections_number(5, tab, Section.point_section(5, tab[i])))
-        print(" ")
+        # ic(SubSection.subsections_number(5, tab, Section.point_section(5, tab[i])))
+        # ic(Section.point_section(5, tab[i]))
+
+        
+        # print(" ")

@@ -2,7 +2,7 @@ import Coordinate as co
 import random
 
 class DataUtils:
-    def max_r(tab):
+    def max_radious(tab):
         max_object = max(tab, key=lambda tab: tab.getR())
         return max_object
     
@@ -26,7 +26,7 @@ if __name__ == '__main__':
     
     print("-----------------")
 
-    max_r = DataUtils.max_r(tab)
+    max_r = DataUtils.max_radious(tab)
 
     print(max_r.getXY(),max_r.getR(),max_r.getPhi())
 
