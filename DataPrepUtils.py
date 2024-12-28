@@ -1,5 +1,6 @@
 import numpy as np
 import Coordinate as co
+import DataUtils as du
 from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import LocalOutlierFactor
 
@@ -24,6 +25,7 @@ class DataPrepUtils:
     
     def listed_class(data):
         return [co.Coordinate(point[0], point[1]) for point in data]
+    
     
 
         

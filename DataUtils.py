@@ -3,12 +3,12 @@ import random
 from typing import List
 
 class DataUtils:
-    def max_radious(tab):
-        max_object = max(tab, key=lambda tab: tab.getR())
+    def max_radious(data_xy):
+        max_object = max(data_xy, key=lambda data_xy: data_xy.getR())
         return max_object
     
-    def setPhiShift(max_r):
-        co.Coordinate.shiftPhi = max_r.getPhi()
+    def setPhiShift(data_xy):
+        co.Coordinate.shiftPhi = DataUtils.max_radious(data_xy).getPhi()
         return co.Coordinate.shiftPhi
     
 

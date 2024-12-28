@@ -3,8 +3,7 @@ import Coordinate as co
 
 class GeometryUtils:
 
-    def section_angle_size(n_angles):
-        return 2*math.pi / n_angles
+
     
     def is_in_radious(point_radious, start_radious, end_radious):
         return start_radious <= point_radious <= end_radious

@@ -17,16 +17,19 @@ class Section:
 
     def __repr__(self):
         return str(self)
+    
+    def section_angle_size(n_angles):
+        return 2*math.pi / n_angles
 
 
     def point_section(n_angles, point):
-        section_angle_size = gu.GeometryUtils.section_angle_size(n_angles)
+        section_angle_size = Section.section_angle_size(n_angles)
         for section_num in range(n_angles):
             if point.getPhi() <= (section_num + 1)* section_angle_size:
                 return section_num
     
     def points_in_section(n_angles, points, section_num):
-        section_angle_size = gu.GeometryUtils.section_angle_size(n_angles)
+        section_angle_size = Section.section_angle_size(n_angles)
         section = [point for point in points if section_num * section_angle_size < point.getPhi() < (section_num + 1) * section_angle_size]
         return section
     
@@ -99,7 +102,14 @@ class SubSection:
         radiouses_of_section.insert(0, 0)
 
         return radiouses_of_section
-
+    
+    def list_of_points_in_subsection_angle(n_angles, points, section_num, subsection_num):
+        subsection_angle_size = SubSection.subsection_angle_size(n_angles, points, section_num)
+        subsection = [point for point in Section.points_in_section(n_angles, points, section_num) 
+                      if section_num * Section.section_angle_size(n_angles) + subsection_num * subsection_angle_size <=
+                      point.getPhi() <
+                      section_num * Section.section_angle_size(n_angles) + (subsection_num + 1) * subsection_angle_size]
+        return subsection
 
 if __name__ == '__main__':
     
@@ -119,17 +129,29 @@ if __name__ == '__main__':
 
     # ic(Section.list_of_biggest_radiouses_in_sections(n_angles, tab))
 
-    for i in range(n_angles):
-        print(
-            " section number:", i, "\n",
+    # for i in range(n_angles):
+    #     print(
+    #         " section number:", i, "\n",
             
-            "subsection number:", SubSection.subsections_number_in_secton(n_angles, data_xy, i), "\n",
+    #         "subsection number:", SubSection.subsections_number_in_secton(n_angles, data_xy, i), "\n",
               
-            "phi:", SubSection.subsection_angle_size(n_angles, data_xy, i), "\n", 
+    #         "phi:", SubSection.subsection_angle_size(n_angles, data_xy, i), "\n", 
 
-            "r:", SubSection.list_of_equal_area_radiouses_in_subsection(
-                Section.list_of_biggest_radiouses_in_sections(n_angles, data_xy)[i], 
-                SubSection.subsections_number_in_secton(n_angles, data_xy, i)),"\n")
+    #         "r:", SubSection.list_of_equal_area_radiouses_in_subsection(
+    #             Section.list_of_biggest_radiouses_in_sections(n_angles, data_xy)[i], 
+    #             SubSection.subsections_number_in_secton(n_angles, data_xy, i)),"\n")
+        
+    sum = 0
+
+    for i in range(n_angles):
+        for j in range(SubSection.subsections_number_in_secton(n_angles, data_xy, i)):
+            subsection_tab = [SubSection.list_of_points_in_subsection_angle(n_angles, data_xy, i, j)[k].getPhi() for k in range(len(SubSection.list_of_points_in_subsection_angle(n_angles, data_xy, i, j)))]
+            sum += len(subsection_tab)
+
+    print(sum)
+
+    print(len(data_xy))
+
     
 
     
