@@ -86,7 +86,7 @@ class SubSection:
         return [SubSection.subsections_number_in_secton(n_angles, points, section_num) for section_num in range(n_angles)]
 
     def subsection_angle_size(n_angles, points, section_num):
-        return gu.GeometryUtils.section_angle_size(n_angles) / SubSection.subsections_number_in_secton(n_angles, points, section_num)  
+        return Section.section_angle_size(n_angles) / SubSection.subsections_number_in_secton(n_angles, points, section_num)  
 
     def list_of_equal_area_radiouses_in_subsection(section_radious, subsections_count):
 

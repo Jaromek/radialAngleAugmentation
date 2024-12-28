@@ -43,7 +43,7 @@ from icecream import ic
 
 n_angles = 5
 
-x_train, y_train = make_blobs(n_samples=1000, centers=1, random_state=42, cluster_std=1.0)
+x_train, y_train = make_blobs(n_samples=5000, centers=1, random_state=42, cluster_std=1.0)
 
 x_train = dp.DataPrepUtils.normalize_data(x_train)
 
