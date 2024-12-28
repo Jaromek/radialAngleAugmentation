@@ -13,19 +13,7 @@ class GeometryUtils:
         return angle_start <= point_angle <= angle_end
 
 
-    def list_of_equal_area_radiouses(section_radious, subsections_count):
-        radiouses_of_section = []
 
-        smallest_r = section_radious * math.sqrt(subsections_count) / subsections_count
-        radiouses_of_section.append(smallest_r)
-
-        for i in range(2, subsections_count + 1):
-            radious_i = smallest_r * math.sqrt(i)
-            radiouses_of_section.append(radious_i)
-            
-        radiouses_of_section.insert(0, 0)
-
-        return radiouses_of_section
     
     
     

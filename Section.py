@@ -2,6 +2,7 @@ import math
 import Coordinate as co
 import GeometryUtils as gu
 import DataUtils as du
+import Augmentation as au
 import random
 from icecream import ic
 
@@ -36,14 +37,17 @@ class Section:
         section = Section.points_in_section(n_angles, points, section_num)
         return du.DataUtils.max_radious(section)
     
+    def list_of_biggest_radiouses_in_sections(n_angles, points):
+        return [Section.section_radious(n_angles, points, section_num).getR() for section_num in range(n_angles)]
+    
     def list_of_elements_number_in_sections(n_angles, points):
         return [Section.number_of_elements_in_section(n_angles, points, section_num) for section_num in range(n_angles)]
     
-    def occuracy_ratio_list(n_angles, points):
+    def list_of_occuracy_ratio(n_angles, points):
         return [Section.number_of_elements_in_section(n_angles, points, section_num)/len(points) for section_num in range(n_angles)]
     
     def number_of_generated_points_per_section(n_angles, points, n_generated_points):
-        return [int(Section.occuracy_ratio_list(n_angles, points)[i] * n_generated_points) for i in range(n_angles)]
+        return [int(Section.list_of_occuracy_ratio(n_angles, points)[i] * n_generated_points) for i in range(n_angles)]
     
     def difference_between_generated_points(n_angles, points, n_generated_points):
         return n_generated_points - sum(Section.number_of_generated_points_per_section(n_angles, points, n_generated_points))
@@ -79,23 +83,53 @@ class SubSection:
         return [SubSection.subsections_number_in_secton(n_angles, points, section_num) for section_num in range(n_angles)]
 
     def subsection_angle_size(n_angles, points, section_num):
-        return gu.GeometryUtils.section_angle_size(n_angles) / SubSection.subsections_number(n_angles, points, section_num)   
+        return gu.GeometryUtils.section_angle_size(n_angles) / SubSection.subsections_number_in_secton(n_angles, points, section_num)  
+
+    def list_of_equal_area_radiouses_in_subsection(section_radious, subsections_count):
+
+        radiouses_of_section = []
+
+        smallest_r = section_radious * math.sqrt(subsections_count) / subsections_count
+        radiouses_of_section.append(smallest_r)
+
+        for i in range(2, subsections_count + 1):
+            radious_i = smallest_r * math.sqrt(i)
+            radiouses_of_section.append(radious_i)
+            
+        radiouses_of_section.insert(0, 0)
+
+        return radiouses_of_section
 
 
 if __name__ == '__main__':
     
     n = 100
-    tab = [co.Coordinate(random.uniform(-10, 10), random.uniform(-10, 10)) for i in range(100)]
+    n_angles = 5
+    data_xy = au.x_train
     
     # print(len(tab))
 
-    ic(Section.section_radious(5, tab, 2).getR())
+    # ic(Section.section_radious(n_angles, tab, 2).getR())
 
-    ic(Section.list_of_number_of_elements_in_sections(5, tab))
+    # ic(Section.list_of_elements_number_in_sections(n_angles, tab))
 
-    ic(Section.occuracy_ratio_list(5, tab))
+    # ic(Section.list_of_occuracy_ratio(n_angles, tab))
 
-    ic(sum(Section.occuracy_ratio_list(5, tab)))
+    # ic(sum(Section.list_of_occuracy_ratio(n_angles, tab)))
+
+    # ic(Section.list_of_biggest_radiouses_in_sections(n_angles, tab))
+
+    for i in range(n_angles):
+        print(
+            " section number:", i, "\n",
+            
+            "subsection number:", SubSection.subsections_number_in_secton(n_angles, data_xy, i), "\n",
+              
+            "phi:", SubSection.subsection_angle_size(n_angles, data_xy, i), "\n", 
+
+            "r:", SubSection.list_of_equal_area_radiouses_in_subsection(
+                Section.list_of_biggest_radiouses_in_sections(n_angles, data_xy)[i], 
+                SubSection.subsections_number_in_secton(n_angles, data_xy, i)),"\n")
     
 
     
