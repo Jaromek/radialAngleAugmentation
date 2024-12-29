@@ -1,4 +1,5 @@
 import math
+from typing import List
 import Coordinate as co
 import Augmentation as au
 import DataUtils as du
@@ -24,7 +25,7 @@ class Section:
             if point.getPhi() <= (section_num + 1) * section_angle_size:
                 return section_num
 
-    def points_in_section(n_angles, points, section_num):
+    def points_in_section(n_angles, points:List[co.Coordinate], section_num):
         section_angle_size = Section.angle_size(n_angles)
         section = [point for point in points if section_num * section_angle_size <= point.getPhi() < (section_num + 1) * section_angle_size]
         return section

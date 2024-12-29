@@ -3,6 +3,7 @@ import Coordinate as co
 import DataUtils as du
 from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import LocalOutlierFactor
+from typing import List
 
 class DataPrepUtils:
 
@@ -23,7 +24,7 @@ class DataPrepUtils:
         scaler = StandardScaler()
         return scaler.fit_transform(data)
     
-    def listed_class(data):
+    def listed_class(data)->List[co.Coordinate]:
         return [co.Coordinate(point[0], point[1]) for point in data]
     
     
