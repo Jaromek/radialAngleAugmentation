@@ -30,7 +30,7 @@ class Section:
     
     def points_in_section(n_angles, points, section_num):
         section_angle_size = Section.section_angle_size(n_angles)
-        section = [point for point in points if section_num * section_angle_size < point.getPhi() < (section_num + 1) * section_angle_size]
+        section = [point for point in points if section_num * section_angle_size <= point.getPhi() < (section_num + 1) * section_angle_size]
         return section
     
     def number_of_elements_in_section(n_angles, points, section_num):
@@ -141,16 +141,38 @@ if __name__ == '__main__':
     #             Section.list_of_biggest_radiouses_in_sections(n_angles, data_xy)[i], 
     #             SubSection.subsections_number_in_secton(n_angles, data_xy, i)),"\n")
         
-    sum = 0
 
-    for i in range(n_angles):
-        for j in range(SubSection.subsections_number_in_secton(n_angles, data_xy, i)):
-            subsection_tab = [SubSection.list_of_points_in_subsection_angle(n_angles, data_xy, i, j)[k].getPhi() for k in range(len(SubSection.list_of_points_in_subsection_angle(n_angles, data_xy, i, j)))]
-            sum += len(subsection_tab)
+    
 
-    print(sum)
+    def find_missing_point(n_angles, data_xy):
+    # Create set of all points
+        all_points = set(range(len(data_xy)))
+        
+        # Create set of assigned points
+        assigned_points = set()
+        
+        for i in range(n_angles):
+            for j in range(SubSection.subsections_number_in_secton(n_angles, data_xy, i)):
+                points = SubSection.list_of_points_in_subsection_angle(n_angles, data_xy, i, j)
+                for idx in range(len(points)):
+                    assigned_points.add(id(points[idx]))
+        
+        # Find missing points
+        for idx, point in enumerate(data_xy):
+            if id(point) not in assigned_points:
+                return (f"Missing point: index={idx}, phi={point.getPhi()}, xy={point.getXY()}")
+            else:
+                continue
 
-    print(len(data_xy))
+
+    # Add this before your sum calculation
+    # ic(find_missing_point(n_angles, data_xy))
+
+    # ic(du.DataUtils.max_radious(data_xy).getXY())
+
+ 
+
+
 
     
 
@@ -163,6 +185,3 @@ if __name__ == '__main__':
 
         # ic(SubSection.subsections_number(5, tab, Section.point_section(5, tab[i])))
         # ic(Section.point_section(5, tab[i]))
-
-        
-        # print(" ")

@@ -43,7 +43,7 @@ from icecream import ic
 
 n_angles = 5
 
-x_train, y_train = make_blobs(n_samples=5000, centers=1, random_state=42, cluster_std=1.0)
+x_train, y_train = make_blobs(n_samples=50000, centers=1, random_state=42, cluster_std=1.0)
 
 x_train = dp.DataPrepUtils.normalize_data(x_train)
 
@@ -57,9 +57,9 @@ shifted_phi = du.DataUtils.setPhiShift(x_train)
 
 max_r = du.DataUtils.max_radious(x_train).getPhi()
 
-print(shifted_phi)
+# print(shifted_phi)
 
-print(max_r)
+# print(max_r)
 
 # section_len = sec.Section.list_of_elements_number_in_sections(n_angles, x_train)
 
