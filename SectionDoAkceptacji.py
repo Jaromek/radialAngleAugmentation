@@ -3,36 +3,42 @@ from typing import List
 import Augmentation as au
 import Coordinate as co
 from icecream import ic
-#subsections = max(1, int(math.sqrt((section_count / len(points)) * 100)))
+import matplotlib as plt
 
+#subsections = max(1, int(math.sqrt((section_count / len(points)) * 100)))
+class SectionGroup:
+    def __init__(self, points:List[co.Coordinate], section_count:int):
+        self.section_count = section_count
+        self.points = points
 
 class Section:
 
     points:List[co.Coordinate] = None
-    n_angles = 0
-    section_num = 0
-    max_radious = 0
+    section_index = 0
+    max_r = 0
     count = 0
-    subsections_number = 4
+    subsec_num_r = 4
+    subsec_num_phi = 4
+    subsection_phi_size = 1
+    phi_size = 0
 
-    def __init__(self,  points:List[co.Coordinate], n_angles:int, section_num:int):
+    def __init__(self,  sectionGroup:SectionGroup, section_index:int):
 
-        self.n_angles = n_angles
-        self.points = self.points_in_section(n_angles, points, section_num)
-        self.section_num = section_num
+        self.number_of_sections = sectionGroup.section_count
+        self.section_index = section_index
+        self.phi_size = 2 * math.pi / self.number_of_sections
+        
+        
+        self.points = self.points_in_section(self.number_of_sections, sectionGroup.points, section_index)
+        self.count = len(self.points)
+        self.max_r = max(point.getR() for point in self.points) if self.points else 0
 
-        count = len(self.points)
-        max_radious = max(point.getR() for point in self.points) if self.points else 0
 
-
-    def angle_size(self, n_angles):
-        return 2 * math.pi / n_angles
-
-    def points_in_section(self, n_angles:int, points:List[co.Coordinate], section_num:int)->List[co.Coordinate]:
-        size = self.angle_size(n_angles)
+    def points_in_section(self, number_of_sections:int, points:List[co.Coordinate], section_index:int)->List[co.Coordinate]:
+        
         section_points = [
             point for point in points
-            if (section_num * size) <= point.getPhi() and point.getPhi() < ((section_num + 1) * size)
+            if (section_index * self.phi_size) <= point.getPhi() and point.getPhi() < ((section_index + 1) * self.phi_size)
         ]
         
         return section_points
@@ -44,88 +50,84 @@ class Section:
 class SubSection:
 
     points:List[co.Coordinate] = None
-    r_i = 0
-    phi_i = 0
-    section_num = 0
-    max_radious = 0
-    #count = 0
+    r_index = 0
+    phi_index = 0
+    phi_size = 0   
+    phi_range = []
+    r_range = []
+    r_base = 0
+    count = 0
+    start_phi = 0
 
 
-    def __init__(self, section: Section, r_i, phi_i):
+    #r_index - numer indeksu promienia
+    #phi_index - numer indeksu kąta
+    def __init__(self, section: Section, r_index: float, phi_index: float): 
 
-        self.phi_i = phi_i
-        self.r_i = r_i
-        self.max_radious = section.max_radious
-        self.points = self.points_in_subsection(section, r_i, phi_i)
+        self.phi_size = (section.phi_size / section.subsec_num_phi)
+
+        self.start_phi = (section.phi_size * section.section_index)
+
+        self.phi_index = phi_index
+        self.phi_range = [self.start_phi + phi_index*self.phi_size, self.start_phi + (phi_index + 1)*self.phi_size]
+
+        self.r_index = r_index
+        self.r_base = section.max_r * math.sqrt(section.subsec_num_r) / section.subsec_num_r
+        self.r_range = [math.sqrt(r_index)*self.r_base, math.sqrt(r_index + 1)*self.r_base]
         
+        self.points = self.points_in_subsection(section)
+        self.count = len(self.points)
 
-
-    def points_in_subsection(self, section: Section, r_i, phi_i):
-        pass      
-
-    def points_and_radius_list(section: Section):
-        section_points = section.points
-        section_count = section.count
-        max_radious = section.max_radious
-
-
-
-
-       
-        # subsection_angle = Section.angle_size(n_angles) / subsections
-        # radiouses = [max_radious * math.sqrt(i) / subsections for i in range(1, subsections + 1)]
-        # radiouses.insert(0, 0)
-        # return section_points, radiouses, subsection_angle
-    
-
-
-data = [co.Coordinate(1, 1), co.Coordinate(2, 2), co.Coordinate(3, 3), co.Coordinate(4, 4), co.Coordinate(5, 5), co.Coordinate(6, 6), co.Coordinate(7, 7), co.Coordinate(8, 8), co.Coordinate(9, 9), co.Coordinate(10, 10)]
-
-sectionList:List[Section] = [Section(data, 4, 0), Section(data, 4, 1), Section(data, 4, 2), Section(data, 4, 3)]
-
-
-def generate_points_distribution(self, sectionList: List[Section], n_angles, points, total_generated):
-        total_points = len(points)
-        ratios = [(section.count / (total_points)) for section in sectionList]
-        generated = [int(ratio * total_generated) for ratio in ratios]
-        diff = total_generated - sum(generated)
-        if diff > 0:
-            min_idx = generated.index(min(generated))
-            generated[min_idx] += diff
-        return generated
-
-
-
-
-
-
-
-
-
-
-
+    def points_in_subsection(self, section: Section)->List[co.Coordinate]:
+        
+        subsection_points = [
+            point for point in section.points
+            if self.phi_range[0] <= point.getPhi() and point.getPhi() < self.phi_range[1] 
+            and self.r_range[0] < point.getR() and point.getR() <= self.r_range[1]
+        ]
+        return subsection_points      
 
 
 
 if __name__ == '__main__':
-    n_angles = 4
     points = au.x_train
-
-    for num in range(n_angles):
-        section_points, radiouses, angle = SubSection.points_and_radius_list(n_angles, points, num)
-        ic(num)
-        ic(radiouses)
-        ic(angle)
-
     ic(len(points))
-    ic(Section.generate_points_distribution(n_angles, points, 10000))
+    # section = Section(points, 6, 0)
+    # subsection = SubSection(section, 0, 0)
+    # ic(section.count)
+    # ic(subsection.count)
+    # ic(subsection.points[0].getXY(), subsection.points[0].getR(), subsection.points[0].getPhi())
+    # ic(section.max_r, section.phi_size)
 
-    for num in range(n_angles):
-        section_points, count, max_radious = Section.points_in_section_and_stats(n_angles, points, num)
-        ic(num)
-        ic(count)
-        ic(max_radious)
-        ic(len(section_points))
+    section_count = 6
+    sectionGroup = SectionGroup(points, section_count)
+    section = Section(sectionGroup, 1)
+    subsection = SubSection(section, 3, 3)
+    ic(section.count)
+    ic(subsection.count)
+    ic(subsection.points[0].getXY(), subsection.points[0].getR(), subsection.points[0].getPhi())
+    ic(section.max_r, section.phi_size)
 
+    ic(sum([sum([SubSection(section,i,j).count for i in range(4)]) for j in range(4)]))
+
+    list = ([([SubSection(section,i,j).points for i in range(4)]) for j in range(4)])
+    listSub = []
+    for i in range(4):
+        for j in range(4):
+            if list[i][j] != []:
+                for k in range(len(list[i][j])):
+                    listSub.append(list[i][j][k].getR())
     
+    list2 = section.points
+    list3 = []
+    for i in range(len(list2)):
+        list3.append(list2[i].getR())
 
+    def delete_duplicates_from_two_lists(list1, list2):
+        for i in range(len(list1)):
+            if list1[i] in list2:
+                list2.remove(list1[i])
+        return list2
+    
+    ic(delete_duplicates_from_two_lists(listSub, list3))
+            

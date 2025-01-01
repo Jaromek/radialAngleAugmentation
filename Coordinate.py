@@ -6,6 +6,7 @@ class Coordinate:
     r = 1
     phi = 0
     shiftPhi = 0
+    
 
     def __init__(self, x, y):
         self.setXY(x, y)
