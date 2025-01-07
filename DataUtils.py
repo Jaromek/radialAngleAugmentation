@@ -1,7 +1,8 @@
+import numpy as np
 import Coordinate as co
-import random
+from sklearn.preprocessing import StandardScaler
+from sklearn.neighbors import LocalOutlierFactor
 from typing import List
-import math
 
 class DataUtils:
     section_angle_number = 1
@@ -17,48 +18,29 @@ class DataUtils:
         co.Coordinate.shiftPhi = DataUtils.max_radious_object(data_xy).getPhi()
         return co.Coordinate.shiftPhi
     
-    # def generate_points_distribution(self, sectionList: List[Section], num_phi_in_section, points, total_generated):
-    #     total_points = len(points)
-    #     ratios = [(section.count / (total_points)) for section in sectionList]
-    #     generated = [int(ratio * total_generated) for ratio in ratios]
-    #     diff = total_generated - sum(generated)
-    #     if diff > 0:
-    #         min_idx = generated.index(min(generated))
-    #         generated[min_idx] += diff
-    #     return generated
+    def shift_to_mass_center(array):
+        mean_x = np.mean(array[:, 0])
+        mean_y = np.mean(array[:, 1])
+        shifted_array = array - [mean_x, mean_y]
+        return shifted_array
+    
+    
+    def remove_outliers_lof(data, n_neighbors=20):
+        lof = LocalOutlierFactor(n_neighbors=n_neighbors)
+        outliers = lof.fit_predict(data)
+        return data[outliers == 1]
+    
+    
+    def normalize_data(data):
+        scaler = StandardScaler()
+        return scaler.fit_transform(data)
+    
+    def listed_class(data)->List[co.Coordinate]:
+        return [co.Coordinate(point[0], point[1]) for point in data]
+    
+
 
     
 
 if __name__ == '__main__':
     tab:List[co.Coordinate] = []
-
-    n = 10
-
-    for i in range(n):
-        tab.append(co.Coordinate(random.randint(1, 10), random.randint(1, 10)))
-
-    print("-----------------")
-
-    for i in range(n):
-        print(tab[i].getXY() ,tab[i].getR(),tab[i].getPhi())
-    
-    print("-----------------")
-
-    max_r = DataUtils.max_radious(tab)
-
-    print(max_r.getXY(),max_r.getR(),max_r.getPhi())
-
-    print("-----------------")
-
-    DataUtils.setPhiShift(DataUtils.max_r(tab))
-
-    print(co.Coordinate.shiftPhi)
-
-    print("-----------------")
-
-    for i in range(n):
-        print(tab[i].getXY(),tab[i].getR(),tab[i].getPhi())
-
-    print("-----------------")
-
-    print(max_r.getXY(),max_r.getR(),max_r.getPhi())
