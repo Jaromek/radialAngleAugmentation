@@ -1,6 +1,6 @@
 import Coordinate as co
 import DataUtils as du
-import Section as sec
+import SectionUtils as sec
 from sklearn.datasets import make_blobs
 from icecream import ic
 
