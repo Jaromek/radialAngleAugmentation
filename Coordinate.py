@@ -1,5 +1,4 @@
 import math
-import random
 
 class Coordinate:
 
@@ -8,10 +7,17 @@ class Coordinate:
     shiftPhi = 0
     
 
-    def __init__(self, x, y):
-        self.setXY(x, y)
+    def __init__(self, r, phi, polar = False):
+        if polar:
+            self.r = r
+            self.phi = phi
+        else:
+            x = r
+            y = phi
+            self.setXY(x, y)
 
-        
+    
+
     def getXY(self):
         x = self.r * math.cos(self.phi - Coordinate.shiftPhi if self.phi - Coordinate.shiftPhi >= 0 else 2*math.pi + self.phi - Coordinate.shiftPhi)
         y = self.r * math.sin(self.phi - Coordinate.shiftPhi if self.phi - Coordinate.shiftPhi >= 0 else 2*math.pi + self.phi - Coordinate.shiftPhi)

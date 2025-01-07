@@ -3,13 +3,20 @@ from typing import List
 import Augmentation as au
 import Coordinate as co
 from icecream import ic
-import matplotlib as plt
+import random
 
-#subsections = max(1, int(math.sqrt((section_count / len(points)) * 100)))
+number_gen_points = 1000
+
 class SectionGroup:
+
+    points:List[co.Coordinate] = None
+    count = 0
+    section_count = 0
+
     def __init__(self, points:List[co.Coordinate], section_count:int):
         self.section_count = section_count
         self.points = points
+        self.count = len(self.points)
 
 class Section:
 
@@ -42,6 +49,10 @@ class Section:
         ]
         
         return section_points
+    
+    def concatenate_points(self, points: List[co.Coordinate]):
+        self.points += points
+        self.count = len(self.points)
     
     
 
@@ -85,13 +96,24 @@ class SubSection:
             if self.phi_range[0] <= point.getPhi() and point.getPhi() < self.phi_range[1] 
             and self.r_range[0] < point.getR() and point.getR() <= self.r_range[1]
         ]
-        return subsection_points      
+        return subsection_points
+
+    def generate_subsection_points(self, global_points_count, number_gen_points)->List:
+        generated_points_number: int = int(round((self.count * number_gen_points)/global_points_count, 0))
+        
+        generated_points: List[co.Coordinate] = [[co.Coordinate(random.uniform(self.r_range[0], self.r_range[1]), random.uniform(self.phi_range[0], self.phi_range[1]), True)] for i in range(generated_points_number)]
+
+        return generated_points
+        
+    def concatenate_points(self, points: List[co.Coordinate]):
+        self.points += points
+        self.count = len(self.points)
 
 
 
 if __name__ == '__main__':
     points = au.x_train
-    ic(len(points))
+    # ic(len(points))
     # section = Section(points, 6, 0)
     # subsection = SubSection(section, 0, 0)
     # ic(section.count)
@@ -99,35 +121,63 @@ if __name__ == '__main__':
     # ic(subsection.points[0].getXY(), subsection.points[0].getR(), subsection.points[0].getPhi())
     # ic(section.max_r, section.phi_size)
 
-    section_count = 6
+    section_count = 1
     sectionGroup = SectionGroup(points, section_count)
-    section = Section(sectionGroup, 1)
-    subsection = SubSection(section, 3, 3)
-    ic(section.count)
-    ic(subsection.count)
-    ic(subsection.points[0].getXY(), subsection.points[0].getR(), subsection.points[0].getPhi())
-    ic(section.max_r, section.phi_size)
+    section = Section(sectionGroup, 0)
+    subsection = SubSection(section, 0, 0)
 
-    ic(sum([sum([SubSection(section,i,j).count for i in range(4)]) for j in range(4)]))
+    ic(len(points))
 
-    list = ([([SubSection(section,i,j).points for i in range(4)]) for j in range(4)])
-    listSub = []
+    sum = 0
+    gen_sum = 0
     for i in range(4):
         for j in range(4):
-            if list[i][j] != []:
-                for k in range(len(list[i][j])):
-                    listSub.append(list[i][j][k].getR())
-    
-    list2 = section.points
-    list3 = []
-    for i in range(len(list2)):
-        list3.append(list2[i].getR())
+            subsection_ = SubSection(section, i, j)
+            sum += subsection_.count
+            gen_points = subsection_.generate_subsection_points(len(points), number_gen_points)
+            ic(subsection_.count)
+            ic(len(gen_points))
+            subsection_.concatenate_points(gen_points)
 
-    def delete_duplicates_from_two_lists(list1, list2):
-        for i in range(len(list1)):
-            if list1[i] in list2:
-                list2.remove(list1[i])
-        return list2
+            ic(subsection_.count)
+
+
+    ic(len(points))
+    # ic(sum)
+    # ic(gen_sum)
+
+
+
+    # gen_points = subsection.generate_subsection_points(len(points), number_gen_points)
+    # ic(len(gen_points))
+    # ic(sectionGroup.count)
+    # ic(section.count)
+    # ic(subsection.count)
+    # ic(subsection.points[0].getXY(), subsection.points[0].getR(), subsection.points[0].getPhi())
+    # ic(section.max_r, section.phi_size)
+
+    # ic(sum([sum([SubSection(section,i,j).count for i in range(4)]) for j in range(4)]))
+
+    # list = ([([SubSection(section,i,j).points for i in range(4)]) for j in range(4)])
+    # listSub = []
+    # for i in range(4):
+    #     for j in range(4):
+    #         if list[i][j] != []:
+    #             for k in range(len(list[i][j])):
+    #                 listSub.append(list[i][j][k].getR())
     
-    ic(delete_duplicates_from_two_lists(listSub, list3))
+    # list2 = section.points
+    # list3 = []
+    # for i in range(len(list2)):
+    #     list3.append(list2[i].getR())
+
+    # def delete_duplicates_from_two_lists(list1, list2):
+    #     for i in range(len(list1)):
+    #         if list1[i] in list2:
+    #             list2.remove(list1[i])
+    #     return list2
+    
+    # ic(delete_duplicates_from_two_lists(listSub, list3))
+
+    # ic(subsection.generate_subsection_points)
             
