@@ -55,6 +55,9 @@ class Section:
 
 
     def points_in_section(self, number_of_sections:int, points:List[co.Coordinate], section_index:int)->List[co.Coordinate]:
+        """
+        Zwraca punkty z sekcji o indeksie section_index
+        """
         
         section_points = [
             point for point in points
@@ -64,6 +67,9 @@ class Section:
         return section_points      
     
     def refresh_subsections(self, subsections_list: List[SubSection]):
+        """
+        Odświeża punkty w sekcji na podstawie punktów w podsekcjach
+        """
         for subsection in subsections_list:
             if subsection.generated_points_in_subsection != []:
                 self.points += subsection.generated_points_in_subsection
@@ -111,6 +117,9 @@ class SubSection:
         self.count = len(self.points)
 
     def points_in_subsection(self, section: Section)->List[co.Coordinate]:
+        """
+        Zwraca punkty z podsekcji o zadanym zakresie kąta i promienia
+        """
         
         subsection_points = [
             point for point in section.points
@@ -120,6 +129,9 @@ class SubSection:
         return subsection_points
 
     def generate_subsection_points(self, global_points_count: int, number_gen_points: int)->List:
+        """
+        Generuje punkty w podsekcji na podstawie liczby punktów w sekcji i liczby punktów globalnych
+        """
         generated_points_number: int = int(round((self.count * number_gen_points)/global_points_count, 0))
         
         generated_points_subsection: List[co.Coordinate] = [co.Coordinate(random.uniform(self.r_range[0], self.r_range[1]), 
@@ -129,6 +141,9 @@ class SubSection:
         return generated_points_subsection
         
     def concatenate_points_subsection(self, points: List[co.Coordinate]):
+        """
+        Dodaje punkty do podsekcji
+        """
         self.points += points
         self.count = len(self.points)
                      
