@@ -102,8 +102,8 @@ class SubSection:
     def __init__(self, section: Section, r_index: float, phi_index: float): 
 
         self.generated_points_in_subsection = []
-        self.start_phi = (section.phi_size * section.section_index)
         self.phi_size = (section.phi_size / section.subsec_num_phi)
+        self.start_phi = (section.phi_size * section.section_index)
 
         
 
