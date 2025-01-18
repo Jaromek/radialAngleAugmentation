@@ -5,9 +5,15 @@ class Coordinate:
     r = 1
     phi = 0
     shiftPhi = 0
+    sectionID = 0
+    subsectionID = 0
+    global_subsectionID = 0
+    colorSection = 0
+    colorSubSection = 0
+
     
 
-    def __init__(self, r, phi, polar = False):
+    def __init__(self, r: float, phi: float, polar = False, sectionID: int = 0, subsectionID: int = 0):
         """
         konstruktor klasy. Zwraca współrzędne biegunowe jeśli polar = True, w przeciwnym wypadku zwraca współrzędne kartezjańskie
         """
@@ -18,6 +24,9 @@ class Coordinate:
             x = r
             y = phi
             self.setXY(x, y)
+        
+        self.sectionID = sectionID
+        self.subsectionID = subsectionID
     
 
     def getXY(self):
@@ -49,4 +58,36 @@ class Coordinate:
     def setPhi(self, phi):
         self.phi = phi 
 
+    def getSectionID(self):
+        return self.sectionID
+    
+    def setSectionID(self, sectionID):
+        self.sectionID = sectionID
+    
+    def setSubsectionID(self, subsectionID):
+        self.subsectionID = subsectionID
+            
+    def getSubsectionID(self):
+        return self.subsectionID
+    
+    def setSubsectionID(self, subsectionID):
+        self.subsectionID = subsectionID
+
+    def setGlobalSubsectionID(self, global_subsectionID):
+        self.global_subsectionID = global_subsectionID
+
+    def getGlobalSubsectionID(self):
+        return self.global_subsectionID
+    
+    def getColorSection(self):
+        return self.colorSection
+    
+    def setColorSection(self, colorSection):
+        self.colorSection = colorSection
+
+    def getColorSubSection(self):
+        return self.colorSubSection
+    
+    def setColorSubSection(self, colorSubSection):
+        self.colorSubSection = colorSubSection
     

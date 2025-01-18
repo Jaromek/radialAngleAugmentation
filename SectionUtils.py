@@ -43,6 +43,9 @@ class Section:
 
     def __init__(self,  sectionGroup:SectionGroup, section_index:int):
 
+
+        
+
         self.generated_points_in_section = []
         self.number_of_sections = sectionGroup.section_count
         self.section_index = section_index
@@ -64,6 +67,9 @@ class Section:
             if (section_index * self.phi_size) <= point.getPhi() and point.getPhi() < ((section_index + 1) * self.phi_size)
         ]
         
+        for section_point in section_points:
+            section_point.sectionID = section_index
+            
         return section_points      
     
     def refresh_subsections(self, subsections_list: List[SubSection]):
@@ -114,7 +120,9 @@ class SubSection:
         self.r_base = section.max_r * math.sqrt(section.subsec_num_r) / section.subsec_num_r
         self.r_range = [math.sqrt(r_index)*self.r_base, math.sqrt(r_index + 1)*self.r_base]
 
-        self.subsection_index = r_index * phi_index
+        self.subsection_index = section.subsec_num_phi * r_index + phi_index
+
+        self.subsection_index = section.section_index + 1
         
         self.points = self.points_in_subsection(section)
         self.count = len(self.points)
@@ -129,6 +137,10 @@ class SubSection:
             if self.phi_range[0] <= point.getPhi() and point.getPhi() < self.phi_range[1] 
             and self.r_range[0] < point.getR() and point.getR() <= self.r_range[1]
         ]
+
+        for subsection_point in subsection_points:
+            subsection_point.subsectionID = self.subsection_index
+            
         return subsection_points
 
     def generate_subsection_points(self, global_points_count: int, number_gen_points: int)->List:
