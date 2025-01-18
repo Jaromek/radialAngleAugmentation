@@ -120,9 +120,7 @@ class SubSection:
         self.r_base = section.max_r * math.sqrt(section.subsec_num_r) / section.subsec_num_r
         self.r_range = [math.sqrt(r_index)*self.r_base, math.sqrt(r_index + 1)*self.r_base]
 
-        self.subsection_index = section.subsec_num_phi * r_index + phi_index
-
-        self.subsection_index = section.section_index + 1
+        self.subsection_index = r_index* section.subsec_num_phi + phi_index        
         
         self.points = self.points_in_subsection(section)
         self.count = len(self.points)
