@@ -2,18 +2,20 @@ import math
 
 class Coordinate:
 
-    r = 1
-    phi = 0
-    shiftPhi = 0
-    sectionID = 0
-    subsectionID = 0
-    global_subsectionID = 0
-    colorSection = 0
-    colorSubSection = 0
+    r: float = 1
+    phi: float = 0
+    shiftPhi: float = 0
+    sectionID: int = 0
+    subsectionID: int = 0
+    global_subsectionID: int = 0
+    colorSection: tuple = (0,0,0)
+    colorSubSection: tuple = (0,0,0)
+    customColor: tuple = (0,0,0)
 
     
 
-    def __init__(self, r: float, phi: float, polar = False, sectionID: int = 0, subsectionID: int = 0):
+    def __init__(self, r: float, phi: float, polar = False, sectionID: int = 0, subsectionID: int = 0, global_subsectionID: int = 0, 
+                 colorSection: tuple = (0,0,0), colorSubSection: tuple = (0,0,0), customColor: tuple = (1,0,0)):
         """
         konstruktor klasy. Zwraca współrzędne biegunowe jeśli polar = True, w przeciwnym wypadku zwraca współrzędne kartezjańskie
         """
@@ -27,14 +29,18 @@ class Coordinate:
         
         self.sectionID = sectionID
         self.subsectionID = subsectionID
+
+        self.colorSection = colorSection
+        self.colorSubSection = colorSubSection
+        self.customColor = customColor
     
 
     def getXY(self):
         """
         zwraca współrzędne kartezjańskie punktu x i y w tablicy -> [x, y]
         """
-        x = self.r * math.cos(self.phi - Coordinate.shiftPhi if self.phi - Coordinate.shiftPhi >= 0 else 2*math.pi + self.phi - Coordinate.shiftPhi)
-        y = self.r * math.sin(self.phi - Coordinate.shiftPhi if self.phi - Coordinate.shiftPhi >= 0 else 2*math.pi + self.phi - Coordinate.shiftPhi)
+        x = self.r * math.cos(self.phi - Coordinate.shiftPhi if self.phi - Coordinate.shiftPhi >= 0 else 2*math.pi - self.phi + Coordinate.shiftPhi)
+        y = self.r * math.sin(self.phi - Coordinate.shiftPhi if self.phi - Coordinate.shiftPhi >= 0 else 2*math.pi - self.phi + Coordinate.shiftPhi)
         return [x, y]
 
     def setXY(self, x, y):
@@ -50,7 +56,7 @@ class Coordinate:
         return self.r
     
     def getPhi(self):
-        return self.phi - Coordinate.shiftPhi if self.phi - Coordinate.shiftPhi >= 0 else 2*math.pi + self.phi - Coordinate.shiftPhi
+        return self.phi - Coordinate.shiftPhi if self.phi - Coordinate.shiftPhi >= 0 else 2*math.pi - self.phi + Coordinate.shiftPhi
 
     def setR(self, r):
         self.r = r
@@ -90,4 +96,10 @@ class Coordinate:
     
     def setColorSubSection(self, colorSubSection):
         self.colorSubSection = colorSubSection
+
+    def getCustomColor(self):
+        return self.customColor
+    
+    def setCustomColor(self, customColor):
+        self.customColor = customColor
     

@@ -1,4 +1,5 @@
 from SectionUtils import SectionGroup, Section, SubSection
+import Coordinate as co
 
 
 def Augmentation(points, section_count, global_points_gen):
@@ -7,6 +8,8 @@ def Augmentation(points, section_count, global_points_gen):
     section_count - number of sections\n
     global_points_gen - number of points to generate in whole data
     """
+
+
 
     sectionGroup = SectionGroup(points, section_count)
     sections = [Section(sectionGroup, i) for i in range(section_count)]
@@ -21,6 +24,8 @@ def Augmentation(points, section_count, global_points_gen):
         section.refresh_subsections(subsections)
 
     sectionGroup.refresh_sections(sections)
+
+
 
 
 # if __name__ == '__main__':

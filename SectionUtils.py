@@ -111,7 +111,7 @@ class SubSection:
         self.phi_size = (section.phi_size / section.subsec_num_phi)
         self.start_phi = (section.phi_size * section.section_index)
 
-        
+        self.section = section
 
         self.phi_index = phi_index
         self.phi_range = [self.start_phi + phi_index*self.phi_size, self.start_phi + (phi_index + 1)*self.phi_size]
@@ -147,10 +147,25 @@ class SubSection:
         """
         generated_points_number: int = int(round((self.count * number_gen_points)/global_points_count, 0))
         
+        shiftPhi = co.Coordinate.shiftPhi
+        
         generated_points_subsection: List[co.Coordinate] = [co.Coordinate(random.uniform(self.r_range[0], self.r_range[1]), 
-                                                                           random.uniform(self.phi_range[0], self.phi_range[1]), True)
+                                                                           random.uniform(self.phi_range[0], self.phi_range[1]), 
+                                                                           True, self.points[0].getSectionID(), self.points[0].getSubsectionID(), self.points[0].getGlobalSubsectionID(),
+                                                                           self.points[0].getColorSection(), self.points[0].getColorSubSection(), (0,1,0))
                                                             for i in range(generated_points_number)]
+
+        # if generated_points_subsection:
+        #     ic(self.points[0].shiftPhi, generated_points_subsection[0].shiftPhi, (self.r_range[0], self.r_range[1]), (self.phi_range[0], self.phi_range[1]), 
+        #                                                                    True, self.points[0].getSectionID(), self.points[0].getSubsectionID(), self.points[0].getGlobalSubsectionID(),
+        #                                                                    self.points[0].getColorSection())
+
         self.generated_points_in_subsection = generated_points_subsection
+
+        co.Coordinate.shiftPhi = shiftPhi
+
+        
+
         return generated_points_subsection
         
     def concatenate_points_subsection(self, points: List[co.Coordinate]):
