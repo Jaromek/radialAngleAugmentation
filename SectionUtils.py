@@ -146,7 +146,7 @@ class SubSection:
         Generuje punkty w podsekcji na podstawie liczby punktów w sekcji i liczby punktów globalnych
         """
         generated_points_number: int = int(round((self.count * number_gen_points)/global_points_count, 0))
-        
+
         
         generated_points_subsection: List[co.Coordinate] = [co.Coordinate(random.uniform(self.r_range[0], self.r_range[1]), 
                                                                            random.uniform(self.phi_range[0], self.phi_range[1]), 
@@ -154,14 +154,15 @@ class SubSection:
                                                                            self.points[0].getColorSection(), (0,1,0), (0,1,0))
                                                             for i in range(generated_points_number)]
 
-        # if generated_points_subsection:
-        #     ic(self.points[0].shiftPhi, generated_points_subsection[0].shiftPhi, (self.r_range[0], self.r_range[1]), (self.phi_range[0], self.phi_range[1]), 
-        #                                                                    True, self.points[0].getSectionID(), self.points[0].getSubsectionID(), self.points[0].getGlobalSubsectionID(),
-        #                                                                    self.points[0].getColorSection())
+        if generated_points_subsection:
+            ic(self.points[0].shiftPhi, generated_points_subsection[0].shiftPhi, (self.r_range[0], self.r_range[1]), (self.phi_range[0], self.phi_range[1]), 
+                                                                           True, self.points[0].getSectionID(), self.points[0].getSubsectionID(), self.points[0].getGlobalSubsectionID(),
+                                                                           self.points[0].getColorSection())
+
 
         self.generated_points_in_subsection = generated_points_subsection
         
-
+        
         return generated_points_subsection
         
     def concatenate_points_subsection(self, points: List[co.Coordinate]):
