@@ -6,7 +6,6 @@ import random
 import math
 
 
-
 class SectionGroup:
 
     points:List[co.Coordinate] = []
@@ -38,7 +37,7 @@ class Section:
     count = 0
     subsec_num_r = 4
     subsec_num_phi = 4
-    subsection_phi_size = 1
+    subsection_phi_size = 1 
     phi_size = 0
 
     def __init__(self,  sectionGroup:SectionGroup, section_index:int):
