@@ -3,6 +3,7 @@ import Coordinate as co
 from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import LocalOutlierFactor
 from typing import List
+import math
 
 class DataUtils:
     section_angle_number = 1
@@ -14,8 +15,8 @@ class DataUtils:
         max_object = max(data_xy, key=lambda data_xy: data_xy.getR())
         return max_object
     
-    def setPhiShift(data_xy, n_angles):        
-        co.Coordinate.shiftPhi = DataUtils.max_radious_object(data_xy).getPhi() - np.pi/n_angles
+    def getPhiShiftByMaxRadious(data_xy, n_angles):        
+        return DataUtils.max_radious_object(data_xy).getPhi() - np.pi/n_angles
 
     def getPhiShift():   
         return co.Coordinate.shiftPhi
@@ -41,6 +42,22 @@ class DataUtils:
         return [co.Coordinate(point[0], point[1]) for point in data]
     
 
+    def addShiftPhi(data, shiftPhi):
+
+        for point in data:
+            if point.shiftPhi + shiftPhi < 0:
+               shiftPhi_ = 2*math.pi - ((-(point.shiftPhi + shiftPhi)) % (2*math.pi))
+            else:
+               shiftPhi_ = (point.shiftPhi + shiftPhi) % (2*math.pi)
+        
+            point.setShiftPhi(shiftPhi_)
+        
+            if point.phi + shiftPhi < 0:
+               shiftPhi_ = 2*math.pi -((-(point.phi + shiftPhi)) % (2*math.pi))
+            else:
+               shiftPhi_ = (point.phi + shiftPhi) % (2*math.pi)
+
+            point.setPhi(shiftPhi_)  
 
     
 

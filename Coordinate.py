@@ -14,17 +14,17 @@ class Coordinate:
 
     
 
-    def __init__(self, r: float, phi: float, polar = False, sectionID: int = 0, subsectionID: int = 0, global_subsectionID: int = 0, 
+    def __init__(self, r_x: float, phi_y: float, polar = False, sectionID: int = 0, subsectionID: int = 0, global_subsectionID: int = 0, 
                  colorSection: tuple = (0,0,0), colorSubSection: tuple = (0,0,0), customColor: tuple = (1,0,0)):
         """
         konstruktor klasy. Zwraca współrzędne biegunowe jeśli polar = True, w przeciwnym wypadku zwraca współrzędne kartezjańskie
         """
         if polar:
-            self.r = r
-            self.phi = phi
+            self.r = r_x
+            self.phi = phi_y
         else:
-            x = r
-            y = phi
+            x = r_x
+            y = phi_y
             self.setXY(x, y)
         
         self.sectionID = sectionID
@@ -33,17 +33,15 @@ class Coordinate:
         self.colorSection = colorSection
         self.colorSubSection = colorSubSection
         self.customColor = customColor
+        self.shiftPhi = 0
     
 
     def getXY(self):
         """
         zwraca współrzędne kartezjańskie punktu x i y w tablicy -> [x, y]
         """
-        x = self.r * math.cos(self.phi - Coordinate.shiftPhi if self.phi - Coordinate.shiftPhi >= 0 else self.phi - Coordinate.shiftPhi + 2*math.pi)
-        y = self.r * math.sin(self.phi - Coordinate.shiftPhi if self.phi - Coordinate.shiftPhi >= 0 else self.phi - Coordinate.shiftPhi + 2*math.pi)
-
-        # x = self.r * math.cos(self.phi if self.phi >= 0 else self.phi + 2*math.pi)
-        # y = self.r * math.sin(self.phi if self.phi >= 0 else self.phi + 2*math.pi)
+        x = self.r * math.cos(self.phi)
+        y = self.r * math.sin(self.phi)       
         
         return [x, y]
 
@@ -60,14 +58,19 @@ class Coordinate:
         return self.r
     
     def getPhi(self):
-        #return self.phi - Coordinate.shiftPhi if self.phi - Coordinate.shiftPhi >= 0 else self.phi - Coordinate.shiftPhi + 2*math.pi
-        return self.phi
+         return self.phi
 
     def setR(self, r):
         self.r = r
 
     def setPhi(self, phi):
-        self.phi = phi 
+        self.phi = phi         
+
+    def setShiftPhi(self, shiftPhi):  
+        self.shiftPhi = shiftPhi         
+
+    def getShiftPhi(self):  
+        return self.shiftPhi
 
     def getSectionID(self):
         return self.sectionID
