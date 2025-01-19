@@ -147,12 +147,11 @@ class SubSection:
         """
         generated_points_number: int = int(round((self.count * number_gen_points)/global_points_count, 0))
         
-        shiftPhi = co.Coordinate.shiftPhi
         
         generated_points_subsection: List[co.Coordinate] = [co.Coordinate(random.uniform(self.r_range[0], self.r_range[1]), 
                                                                            random.uniform(self.phi_range[0], self.phi_range[1]), 
                                                                            True, self.points[0].getSectionID(), self.points[0].getSubsectionID(), self.points[0].getGlobalSubsectionID(),
-                                                                           self.points[0].getColorSection(), self.points[0].getColorSubSection(), (0,1,0))
+                                                                           self.points[0].getColorSection(), (0,1,0), (0,1,0))
                                                             for i in range(generated_points_number)]
 
         # if generated_points_subsection:
@@ -161,9 +160,6 @@ class SubSection:
         #                                                                    self.points[0].getColorSection())
 
         self.generated_points_in_subsection = generated_points_subsection
-
-        co.Coordinate.shiftPhi = shiftPhi
-
         
 
         return generated_points_subsection

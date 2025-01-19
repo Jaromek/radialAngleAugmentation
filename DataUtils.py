@@ -16,7 +16,8 @@ class DataUtils:
     
     def setPhiShift(data_xy, n_angles):        
         co.Coordinate.shiftPhi = DataUtils.max_radious_object(data_xy).getPhi() - np.pi/n_angles
-        
+
+    def getPhiShift():   
         return co.Coordinate.shiftPhi
     
     def shift_to_mass_center(array):
