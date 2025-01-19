@@ -41,6 +41,10 @@ class Coordinate:
         """
         x = self.r * math.cos(self.phi - Coordinate.shiftPhi if self.phi - Coordinate.shiftPhi >= 0 else self.phi - Coordinate.shiftPhi + 2*math.pi)
         y = self.r * math.sin(self.phi - Coordinate.shiftPhi if self.phi - Coordinate.shiftPhi >= 0 else self.phi - Coordinate.shiftPhi + 2*math.pi)
+
+        # x = self.r * math.cos(self.phi if self.phi >= 0 else self.phi + 2*math.pi)
+        # y = self.r * math.sin(self.phi if self.phi >= 0 else self.phi + 2*math.pi)
+        
         return [x, y]
 
     def setXY(self, x, y):
@@ -56,7 +60,8 @@ class Coordinate:
         return self.r
     
     def getPhi(self):
-        return self.phi - Coordinate.shiftPhi if self.phi - Coordinate.shiftPhi >= 0 else self.phi - Coordinate.shiftPhi + 2*math.pi
+        #return self.phi - Coordinate.shiftPhi if self.phi - Coordinate.shiftPhi >= 0 else self.phi - Coordinate.shiftPhi + 2*math.pi
+        return self.phi
 
     def setR(self, r):
         self.r = r
