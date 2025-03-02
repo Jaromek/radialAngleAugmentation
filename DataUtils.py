@@ -21,11 +21,16 @@ class DataUtils:
     def getPhiShift():   
         return co.Coordinate.shiftPhi
     
-    def shift_to_mass_center(array):
-        mean_x = np.mean(array[:, 0])
-        mean_y = np.mean(array[:, 1])
-        shifted_array = array - [mean_x, mean_y]
+    def mass_center(data):
+        mean_x = np.mean(data[:, 0])
+        mean_y = np.mean(data[:, 1])
+        shift_vector = [mean_x, mean_y]
+        return shift_vector
+
+    def shift_by_vector(array, shift_vector):
+        shifted_array = np.subtract(array, shift_vector)
         return shifted_array
+
     
     
     def remove_outliers_lof(data, n_neighbors=20):

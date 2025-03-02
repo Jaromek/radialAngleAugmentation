@@ -3,7 +3,7 @@ import DataUtils as du
 import numpy as np
 
 def radiousAngleMethodForSingleClass(dataset_data, dataset_target, section_count, global_points_gen):
-    
+
     dataset_data = du.DataUtils.listed_class(dataset_data)
     phiShiftByMaxRadious = du.DataUtils.getPhiShiftByMaxRadious(dataset_data, section_count)
     du.DataUtils.addShiftPhi(dataset_data, -phiShiftByMaxRadious)
@@ -11,6 +11,7 @@ def radiousAngleMethodForSingleClass(dataset_data, dataset_target, section_count
     du.DataUtils.addShiftPhi(dataset_data, phiShiftByMaxRadious)
 
     return [point.getXY() for point in dataset_data], [dataset_target for targets in range(len(dataset_data))]
+
 
 def radiousAngleMethod(dataset_data, dataset_targets, section_count):
     unique_classes, counts = np.unique(dataset_targets, return_counts=True)
@@ -21,6 +22,11 @@ def radiousAngleMethod(dataset_data, dataset_targets, section_count):
         difference = max_count - counts[i]
 
         if difference > 0:
+            shift_vector = du.DataUtils.mass_center(dataset_data[dataset_targets == abstractClass])
+            dataset_data[dataset_targets == abstractClass] = du.DataUtils.shift_by_vector(
+                dataset_data[dataset_targets == abstractClass],
+                shift_vector
+            )
 
             augmented_data, augmented_target = radiousAngleMethodForSingleClass(
                 dataset_data[dataset_targets == abstractClass],
@@ -28,6 +34,13 @@ def radiousAngleMethod(dataset_data, dataset_targets, section_count):
                 section_count,
                 global_points_gen=difference
             )
+
+            shift_vector = [-shift_vector[0], -shift_vector[1]]
+            dataset_data[dataset_targets == abstractClass] = du.DataUtils.shift_by_vector(
+                dataset_data[dataset_targets == abstractClass],
+                shift_vector
+            )
+            augmented_data = du.DataUtils.shift_by_vector(augmented_data, shift_vector)
         else:
             continue
 
