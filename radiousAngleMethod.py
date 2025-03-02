@@ -13,18 +13,21 @@ def radiousAngleMethodForSingleClass(dataset_data, dataset_target, section_count
     return [point.getXY() for point in dataset_data], [dataset_target for targets in range(len(dataset_data))]
 
 def radiousAngleMethod(dataset_data, dataset_targets, section_count):
-
     unique_classes, counts = np.unique(dataset_targets, return_counts=True)
+    max_count = np.max(counts)
 
-    for abstractClass in unique_classes:
+    for i, abstractClass in enumerate(unique_classes):
 
-        difference = abs(np.max(unique_classes) - abstractClass)
+        difference = max_count - counts[i]
 
-        if difference != 0:
+        if difference > 0:
 
-            augmented_data, augmented_target = radiousAngleMethodForSingleClass(dataset_data[dataset_targets == abstractClass], abstractClass, section_count, global_points_gen = difference)
-
-
+            augmented_data, augmented_target = radiousAngleMethodForSingleClass(
+                dataset_data[dataset_targets == abstractClass],
+                abstractClass,
+                section_count,
+                global_points_gen=difference
+            )
         else:
             continue
 
