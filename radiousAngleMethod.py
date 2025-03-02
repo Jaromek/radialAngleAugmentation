@@ -17,15 +17,18 @@ def radiousAngleMethod(dataset_data, dataset_targets, section_count):
     unique_classes, counts = np.unique(dataset_targets, return_counts=True)
     max_count = np.max(counts)
 
-    for i, abstractClass in enumerate(unique_classes):
 
+    augmented_data_list = []
+    augmented_targets_list = []
+
+    for i, abstractClass in enumerate(unique_classes):
         difference = max_count - counts[i]
 
         if difference > 0:
             shift_vector = du.DataUtils.mass_center(dataset_data[dataset_targets == abstractClass])
+
             dataset_data[dataset_targets == abstractClass] = du.DataUtils.shift_by_vector(
-                dataset_data[dataset_targets == abstractClass],
-                shift_vector
+                dataset_data[dataset_targets == abstractClass], shift_vector
             )
 
             augmented_data, augmented_target = radiousAngleMethodForSingleClass(
@@ -37,14 +40,57 @@ def radiousAngleMethod(dataset_data, dataset_targets, section_count):
 
             shift_vector = [-shift_vector[0], -shift_vector[1]]
             dataset_data[dataset_targets == abstractClass] = du.DataUtils.shift_by_vector(
-                dataset_data[dataset_targets == abstractClass],
-                shift_vector
+                dataset_data[dataset_targets == abstractClass], shift_vector
             )
             augmented_data = du.DataUtils.shift_by_vector(augmented_data, shift_vector)
-        else:
-            continue
 
-        dataset_data = np.concatenate((dataset_data, augmented_data), axis=0)
-        dataset_targets = np.concatenate((dataset_targets, augmented_target), axis=0)
+
+            augmented_data_list.append(augmented_data)
+            augmented_targets_list.append(augmented_target)
+
+
+    if augmented_data_list:
+        augmented_data_array = np.vstack(augmented_data_list)
+        augmented_targets_array = np.hstack(augmented_targets_list)
+
+        dataset_data = np.concatenate((dataset_data, augmented_data_array), axis=0)
+        dataset_targets = np.concatenate((dataset_targets, augmented_targets_array), axis=0)
 
     return dataset_data, dataset_targets
+
+# def radiousAngleMethod(dataset_data, dataset_targets, section_count):
+#     unique_classes, counts = np.unique(dataset_targets, return_counts=True)
+#     max_count = np.max(counts)
+
+#     for i, abstractClass in enumerate(unique_classes):
+
+#         difference = max_count - counts[i]
+
+#         if difference > 0:
+#             shift_vector = du.DataUtils.mass_center(dataset_data[dataset_targets == abstractClass])
+
+#             dataset_data[dataset_targets == abstractClass] = du.DataUtils.shift_by_vector(
+#                 dataset_data[dataset_targets == abstractClass],
+#                 shift_vector
+#             )
+
+#             augmented_data, augmented_target = radiousAngleMethodForSingleClass(
+#                 dataset_data[dataset_targets == abstractClass],
+#                 abstractClass,
+#                 section_count,
+#                 global_points_gen=difference
+#             )
+
+#             shift_vector = [-shift_vector[0], -shift_vector[1]]
+#             dataset_data[dataset_targets == abstractClass] = du.DataUtils.shift_by_vector(
+#                 dataset_data[dataset_targets == abstractClass],
+#                 shift_vector
+#             )
+#             augmented_data = du.DataUtils.shift_by_vector(augmented_data, shift_vector)
+#         else:
+#             continue
+        
+#         dataset_data = np.concatenate((dataset_data, augmented_data), axis=0)
+#         dataset_targets = np.concatenate((dataset_targets, augmented_target), axis=0)
+
+#     return dataset_data, dataset_targets

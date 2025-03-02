@@ -144,7 +144,7 @@ class SubSection:
         """
         Generuje punkty w podsekcji na podstawie liczby punktów w sekcji i liczby punktów globalnych
         """
-        generated_points_number: int = int((self.count * number_gen_points)/global_points_count, 0)
+        generated_points_number: int = int(round((self.count * number_gen_points)/global_points_count, 0))
 
         
         generated_points_subsection: List[co.Coordinate] = [co.Coordinate(random.uniform(self.r_range[0], self.r_range[1]), 
