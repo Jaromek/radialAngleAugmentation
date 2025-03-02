@@ -7,6 +7,9 @@ def radiousAngleMethodForSingleClass(dataset_data, dataset_target, section_count
     dataset_data = du.DataUtils.listed_class(dataset_data)
     phiShiftByMaxRadious = du.DataUtils.getPhiShiftByMaxRadious(dataset_data, section_count)
     du.DataUtils.addShiftPhi(dataset_data, -phiShiftByMaxRadious)
+
+    print(f"Generating {global_points_gen} points for class {dataset_target}")
+
     au.Augmentation(points=dataset_data, section_count=section_count, global_points_gen=global_points_gen)
     du.DataUtils.addShiftPhi(dataset_data, phiShiftByMaxRadious)
 
@@ -14,21 +17,23 @@ def radiousAngleMethodForSingleClass(dataset_data, dataset_target, section_count
 
 
 def radiousAngleMethod(dataset_data, dataset_targets, section_count):
+
     unique_classes, counts = np.unique(dataset_targets, return_counts=True)
     max_count = np.max(counts)
 
-
-    augmented_data_list = []
-    augmented_targets_list = []
-
     for i, abstractClass in enumerate(unique_classes):
+
         difference = max_count - counts[i]
 
         if difference > 0:
+
+            print(f"Generating {difference} points for class {abstractClass}")
+
             shift_vector = du.DataUtils.mass_center(dataset_data[dataset_targets == abstractClass])
 
             dataset_data[dataset_targets == abstractClass] = du.DataUtils.shift_by_vector(
-                dataset_data[dataset_targets == abstractClass], shift_vector
+                dataset_data[dataset_targets == abstractClass],
+                shift_vector
             )
 
             augmented_data, augmented_target = radiousAngleMethodForSingleClass(
@@ -40,57 +45,21 @@ def radiousAngleMethod(dataset_data, dataset_targets, section_count):
 
             shift_vector = [-shift_vector[0], -shift_vector[1]]
             dataset_data[dataset_targets == abstractClass] = du.DataUtils.shift_by_vector(
-                dataset_data[dataset_targets == abstractClass], shift_vector
+                dataset_data[dataset_targets == abstractClass],
+                shift_vector
             )
             augmented_data = du.DataUtils.shift_by_vector(augmented_data, shift_vector)
 
+            print(len(augmented_data))
 
-            augmented_data_list.append(augmented_data)
-            augmented_targets_list.append(augmented_target)
+        else:
+            continue
 
+        
 
-    if augmented_data_list:
-        augmented_data_array = np.vstack(augmented_data_list)
-        augmented_targets_array = np.hstack(augmented_targets_list)
+        dataset_data = np.concatenate((dataset_data, augmented_data), axis=0)
+        dataset_targets = np.concatenate((dataset_targets, augmented_target), axis=0)
 
-        dataset_data = np.concatenate((dataset_data, augmented_data_array), axis=0)
-        dataset_targets = np.concatenate((dataset_targets, augmented_targets_array), axis=0)
+        
 
     return dataset_data, dataset_targets
-
-# def radiousAngleMethod(dataset_data, dataset_targets, section_count):
-#     unique_classes, counts = np.unique(dataset_targets, return_counts=True)
-#     max_count = np.max(counts)
-
-#     for i, abstractClass in enumerate(unique_classes):
-
-#         difference = max_count - counts[i]
-
-#         if difference > 0:
-#             shift_vector = du.DataUtils.mass_center(dataset_data[dataset_targets == abstractClass])
-
-#             dataset_data[dataset_targets == abstractClass] = du.DataUtils.shift_by_vector(
-#                 dataset_data[dataset_targets == abstractClass],
-#                 shift_vector
-#             )
-
-#             augmented_data, augmented_target = radiousAngleMethodForSingleClass(
-#                 dataset_data[dataset_targets == abstractClass],
-#                 abstractClass,
-#                 section_count,
-#                 global_points_gen=difference
-#             )
-
-#             shift_vector = [-shift_vector[0], -shift_vector[1]]
-#             dataset_data[dataset_targets == abstractClass] = du.DataUtils.shift_by_vector(
-#                 dataset_data[dataset_targets == abstractClass],
-#                 shift_vector
-#             )
-#             augmented_data = du.DataUtils.shift_by_vector(augmented_data, shift_vector)
-#         else:
-#             continue
-        
-#         dataset_data = np.concatenate((dataset_data, augmented_data), axis=0)
-#         dataset_targets = np.concatenate((dataset_targets, augmented_target), axis=0)
-
-#     return dataset_data, dataset_targets
