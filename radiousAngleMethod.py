@@ -10,7 +10,7 @@ def radiousAngleMethodForSingleClass(dataset_data, dataset_target, section_count
 
     print(f"Generating {global_points_gen} points for class {dataset_target}")
 
-    au.Augmentation(points=dataset_data, section_count=section_count, global_points_gen=global_points_gen)
+    dataset_data = au.Augmentation(points=dataset_data, section_count=section_count, global_points_gen=global_points_gen)
     du.DataUtils.addShiftPhi(dataset_data, phiShiftByMaxRadious)
 
     return [point.getXY() for point in dataset_data], [dataset_target for targets in range(len(dataset_data))]
