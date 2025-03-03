@@ -25,8 +25,6 @@ def Augmentation(points, section_count, global_points_gen):
 
     sectionGroup.refresh_sections(sections)
 
-    print(len(generated_points))
-
     return generated_points
 
 

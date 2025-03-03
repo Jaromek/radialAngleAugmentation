@@ -8,8 +8,6 @@ def radiousAngleMethodForSingleClass(dataset_data, dataset_target, section_count
     phiShiftByMaxRadious = du.DataUtils.getPhiShiftByMaxRadious(dataset_data, section_count)
     du.DataUtils.addShiftPhi(dataset_data, -phiShiftByMaxRadious)
 
-    print(f"Generating {global_points_gen} points for class {dataset_target}")
-
     dataset_data = au.Augmentation(points=dataset_data, section_count=section_count, global_points_gen=global_points_gen)
     du.DataUtils.addShiftPhi(dataset_data, phiShiftByMaxRadious)
 
@@ -26,8 +24,6 @@ def radiousAngleMethod(dataset_data, dataset_targets, section_count):
         difference = max_count - counts[i]
 
         if difference > 0:
-
-            print(f"Generating {difference} points for class {abstractClass}")
 
             shift_vector = du.DataUtils.mass_center(dataset_data[dataset_targets == abstractClass])
 
@@ -49,8 +45,6 @@ def radiousAngleMethod(dataset_data, dataset_targets, section_count):
                 shift_vector
             )
             augmented_data = du.DataUtils.shift_by_vector(augmented_data, shift_vector)
-
-            print(len(augmented_data))
 
         else:
             continue
