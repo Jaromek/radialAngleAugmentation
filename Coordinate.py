@@ -50,7 +50,10 @@ class Coordinate:
         ustawia współrzędne biegunowe punktu na podstawie współrzędnych kartezjańskich x i y        
         """
         self.r = math.sqrt(x**2 + y**2)
-        self.phi = math.acos(x/self.r) 
+        if self.r > 0:
+            self.phi = math.acos(x/self.r)
+        else:
+            self.phi = 0 
         if y < 0:
             self.phi = 2*math.pi - self.phi 
 

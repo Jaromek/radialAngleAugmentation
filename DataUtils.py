@@ -28,8 +28,11 @@ class DataUtils:
         return shift_vector
 
     def shift_by_vector(array, shift_vector):
+        if np.array(array).size == 0:
+            return array
         shifted_array = np.subtract(array, shift_vector)
         return shifted_array
+
 
     
     
