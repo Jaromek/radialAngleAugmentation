@@ -4,27 +4,38 @@ import scipy as sp
 from icecream import ic
 import pandas as pd
 import seaborn as sns
+import matplotlib.pyplot as plt
 
-def dataResults(data: list, features: list, name: str):
+def dataResults(data: list, name: str):
 
     pearson_cov = sp.stats.pearsonr(data[:, 0], data[:, 1])
-
-    # df = pd.DataFrame(data, columns=features)
-    # df['target'] = features
-    # corr_matrix = pd.DataFrame(data).corr()
-    # sns.heatmap(corr_matrix, cmap="Blues", annot=True)
 
     pca1D = sk.decomposition.PCA(n_components=1)
     data = pca1D.fit_transform(data)
 
     desc = pd.DataFrame(data, columns=[f'{name}']).describe()
-    mean = np.mean(data)
-    median = np.median(data)
-    variance = np.var(data)    
+    variance = np.var(data)
     
+    ic(pearson_cov, variance, desc)
 
-    ic(pearson_cov, mean, median, variance, desc)
+    return pearson_cov, variance, desc
 
-    
+def correlationResults(*datasets_to_correlate: list, default_features: list):
 
-    return pearson_cov, mean, median, variance
+    unique_classes, counts = np.unique(default_features, return_counts=True)
+    max_count = np.max(counts)
+
+    for i, unique_class in enumerate(unique_classes):
+
+        difference = max_count - counts[i]
+
+        if difference > 0:
+            
+            for dataset in datasets_to_correlate:            
+                dataframe = pd.DataFrame(dataset[default_features == unique_class], columns=['x', 'y'])
+                correlation_matrix = dataframe.corr()
+                sns.heatmap(correlation_matrix, annot=True, cbar=False)
+                plt.show()
+
+
+    ic(unique_classes, counts, max_count)
