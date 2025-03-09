@@ -6,7 +6,25 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-def dataResults(data: list, name: str):
+def dataResults(data: list, data_features: list, default_features: list, name: str):
+
+    unique_classes, counts = np.unique(default_features, return_counts=True)
+    max_count = np.max(counts)
+
+    for i, unique_class in enumerate(unique_classes):
+
+        difference = max_count - counts[i]
+
+        if difference > 0:
+            
+            dataframe = pd.DataFrame(data[data_features == unique_class], columns=['x', 'y'])
+            correlation_matrix = dataframe.corr()
+            sns.heatmap(correlation_matrix, annot=True, cbar=False)
+            plt.show()
+
+            ic(unique_class)
+            ic(sp.stats.pearsonr(dataframe['x'], dataframe['y']))
+
 
     pearson_cov = sp.stats.pearsonr(data[:, 0], data[:, 1])
 
@@ -18,24 +36,28 @@ def dataResults(data: list, name: str):
     
     ic(pearson_cov, variance, desc)
 
+    print('---------------------------------------------------------------------------------------------------------------')
+
     return pearson_cov, variance, desc
 
-def correlationResults(*datasets_to_correlate: list, default_features: list):
+# def correlationResults(*datasets_to_correlate_with_features: list, default_dataset: list, default_features: list):
 
-    unique_classes, counts = np.unique(default_features, return_counts=True)
-    max_count = np.max(counts)
+#     unique_classes, counts = np.unique(default_features, return_counts=True)
+#     max_count = np.max(counts)
 
-    for i, unique_class in enumerate(unique_classes):
+#     for i, unique_class in enumerate(unique_classes):
 
-        difference = max_count - counts[i]
+#         difference = max_count - counts[i]
 
-        if difference > 0:
+#         if difference > 0:
             
-            for dataset in datasets_to_correlate:            
-                dataframe = pd.DataFrame(dataset[default_features == unique_class], columns=['x', 'y'])
-                correlation_matrix = dataframe.corr()
-                sns.heatmap(correlation_matrix, annot=True, cbar=False)
-                plt.show()
+#             for dataset in datasets_to_correlate_with_features[0]:  
+#                 print(unique_class)          
+#                 dataframe = pd.DataFrame(dataset[datasets_to_correlate_with_features[1] == unique_class], columns=['x', 'y'])
+#                 correlation_matrix = dataframe.corr()
+#                 sns.heatmap(correlation_matrix, annot=True, cbar=False)
+#                 plt.show()
+#                 print(sp.stats.pearsonr(dataframe['x'], dataframe['y']))
 
 
-    ic(unique_classes, counts, max_count)
+#     ic(unique_classes, counts, max_count)
