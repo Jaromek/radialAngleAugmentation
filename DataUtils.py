@@ -66,8 +66,3 @@ class DataUtils:
                shiftPhi_ = (point.phi + shiftPhi) % (2*math.pi)
 
             point.setPhi(shiftPhi_)  
-
-    
-
-if __name__ == '__main__':
-    tab:List[co.Coordinate] = []

@@ -17,7 +17,7 @@ class Coordinate:
     def __init__(self, r_x: float, phi_y: float, polar = False, sectionID: int = 0, subsectionID: int = 0, global_subsectionID: int = 0, 
                  colorSection: tuple = (0,0,0), colorSubSection: tuple = (0,0,0), customColor: tuple = (1,0,0)):
         """
-        konstruktor klasy. Zwraca współrzędne biegunowe jeśli polar = True, w przeciwnym wypadku zwraca współrzędne kartezjańskie
+        Class constructor. Returns polar coordinates if polar = True, otherwise returns Cartesian coordinates
         """
         if polar:
             self.r = r_x
@@ -38,7 +38,7 @@ class Coordinate:
 
     def getXY(self):
         """
-        zwraca współrzędne kartezjańskie punktu x i y w tablicy -> [x, y]
+        Returns the Cartesian coordinates of the point x and y in the array -> [x, y]
         """
         x = self.r * math.cos(self.phi)
         y = self.r * math.sin(self.phi)       
@@ -47,7 +47,7 @@ class Coordinate:
 
     def setXY(self, x, y):
         """
-        ustawia współrzędne biegunowe punktu na podstawie współrzędnych kartezjańskich x i y        
+        Sets the polar coordinates of the point based on the Cartesian coordinates x and y      
         """
         self.r = math.sqrt(x**2 + y**2)
         if self.r > 0:
