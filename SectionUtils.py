@@ -101,9 +101,6 @@ class SubSection:
     subsection_index = 0
     
 
-
-    #r_index - numer indeksu promienia
-    #phi_index - numer indeksu kąta
     def __init__(self, section: Section, r_index: float, phi_index: float): 
 
         self.generated_points_in_subsection = []
@@ -152,11 +149,6 @@ class SubSection:
                                                                            True, self.points[0].getSectionID(), self.points[0].getSubsectionID(), self.points[0].getGlobalSubsectionID(),
                                                                            self.points[0].getColorSection(), self.points[0].getColorSubSection(), (0,1,0))
                                                             for i in range(generated_points_number)]
-
-        # if generated_points_subsection:
-        #     ic(self.points[0].shiftPhi, generated_points_subsection[0].shiftPhi, (self.r_range[0], self.r_range[1]), (self.phi_range[0], self.phi_range[1]), 
-        #                                                                    True, self.points[0].getSectionID(), self.points[0].getSubsectionID(), self.points[0].getGlobalSubsectionID(),
-        #                                                                    self.points[0].getColorSection(), self.points[0].getColorSubSection(), (0,1,0))
 
 
         self.generated_points_in_subsection = generated_points_subsection
