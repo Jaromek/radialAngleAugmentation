@@ -50,7 +50,7 @@ The [`augmentationProcess.ipynb`](augmentationProcess.ipynb) notebook contains a
 - Point augmentation
 - Visualization of results
 
-## Authors
+## Licence
 
 This project is intended for scientific and educational purposes.
 
