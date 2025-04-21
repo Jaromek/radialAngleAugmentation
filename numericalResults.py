@@ -39,25 +39,3 @@ def dataResults(data: list, data_features: list, default_features: list, name: s
     print('---------------------------------------------------------------------------------------------------------------')
 
     return pearson_cov, variance, desc
-
-# def correlationResults(*datasets_to_correlate_with_features: list, default_dataset: list, default_features: list):
-
-#     unique_classes, counts = np.unique(default_features, return_counts=True)
-#     max_count = np.max(counts)
-
-#     for i, unique_class in enumerate(unique_classes):
-
-#         difference = max_count - counts[i]
-
-#         if difference > 0:
-            
-#             for dataset in datasets_to_correlate_with_features[0]:  
-#                 print(unique_class)          
-#                 dataframe = pd.DataFrame(dataset[datasets_to_correlate_with_features[1] == unique_class], columns=['x', 'y'])
-#                 correlation_matrix = dataframe.corr()
-#                 sns.heatmap(correlation_matrix, annot=True, cbar=False)
-#                 plt.show()
-#                 print(sp.stats.pearsonr(dataframe['x'], dataframe['y']))
-
-
-#     ic(unique_classes, counts, max_count)
