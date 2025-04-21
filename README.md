@@ -14,7 +14,6 @@ This project provides tools for data augmentation and numerical analysis on 2D d
   - `DataUtils.py` – utilities for normalization, outlier removal, center of mass calculation, etc.
   - `SectionUtils.py` – section and subsection division, Section, SubSection, SectionGroup classes.
   - `radiousAngleMethod.py` – implementation of the RAM (Radius Angle Method).
-  - `__pycache__/` – Python cache files.
 
 - **articleNotebooks/**  
   Notebooks and scripts for comparative analysis:
