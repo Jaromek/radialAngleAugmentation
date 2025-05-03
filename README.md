@@ -17,7 +17,7 @@ This project provides tools for data augmentation and numerical analysis on vari
 
 - **articleNotebooks/**  
   Notebooks and scripts for comparative analysis:
-  - `metodyNumeryczneSprawdzenia.ipynb` – comparison of RAM, SMOTE, ADASYN, ROS on various datasets (wine, cancer, blobs).
+  - `numericalResultsCheck.ipynb` – comparison of RAM, SMOTE, ADASYN, ROS on various datasets (wine, cancer, blobs).
   - `numericalResults.py` – functions for summarizing results.
   - `plotting.py` – functions for data and results visualization.
 
