@@ -2,6 +2,7 @@
 
 This project provides tools for data augmentation and numerical analysis on various datasets. It includes utilities for generating, processing, and visualizing data, as well as comparing different oversampling methods.
 
+
 ## Project Structure
 
 - **augmentationProcess.ipynb**  
