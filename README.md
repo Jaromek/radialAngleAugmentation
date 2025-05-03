@@ -1,6 +1,6 @@
 # radialAngleAugmentation
 
-This project provides tools for data augmentation and numerical analysis on 2D datasets. It includes utilities for generating, processing, and visualizing data, as well as comparing various oversampling methods.
+This project provides tools for data augmentation and numerical analysis on various datasets. It includes utilities for generating, processing, and visualizing data, as well as comparing different oversampling methods.
 
 ## Project Structure
 
